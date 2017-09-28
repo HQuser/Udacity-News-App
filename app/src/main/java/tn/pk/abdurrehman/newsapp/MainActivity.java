@@ -3,6 +3,8 @@ package tn.pk.abdurrehman.newsapp;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.io.InputStream;
@@ -20,11 +22,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Setting up the ListView And Adapter
         ListView listView = (ListView) findViewById(R.id.news_list_view);
-
         mAdapter = new NewsAdapter(this, new ArrayList<News>());
-
         listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                News currentNews = mAdapter.getItem(position);
+                QueryUtils.openLinkIntent(currentNews.getUrl(), getApplicationContext());
+            }
+        });
 
         new NewsASyncTask().execute(NEWS_REQUEST_URL);
 

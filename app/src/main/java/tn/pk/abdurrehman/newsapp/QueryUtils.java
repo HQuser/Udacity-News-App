@@ -1,5 +1,10 @@
 package tn.pk.abdurrehman.newsapp;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -136,5 +141,40 @@ public class QueryUtils {
         }
 
         return newsList;
+    }
+
+    /**
+     * This method checks whether device has an active internet connection or not
+     *
+     * @param context is the context to check connection
+     * @return true if device has internet connection and vice versa
+     */
+    public static boolean hasInternetConnection(Context context) {
+        // Checking internet connection
+        // Get a reference to the ConnectivityManager to check state of network connectivity
+        final ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Get details on the currently active default data network
+        final NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        // If there is no internet connection, simply return
+        return networkInfo != null && networkInfo.isConnected();
+    }
+
+    /**
+     * This method opens the link provided to user preferred web browser via intent
+     *
+     * @param url     to open in the form of string
+     * @param context to open up the intent
+     */
+    public static void openLinkIntent(String url, Context context) {
+        // Convert the String URL into a URI object (to pass into the Intent constructor)
+        Uri bookUri = Uri.parse(url);
+
+        // Create a new intent to view the earthquake URI
+        Intent websiteIntent = new Intent(Intent.ACTION_VIEW, bookUri);
+
+        // Send the intent to launch a new activity
+        context.startActivity(websiteIntent);
     }
 }

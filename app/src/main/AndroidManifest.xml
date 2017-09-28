@@ -3,7 +3,8 @@
     package="tn.pk.abdurrehman.newsapp">
 
     <!-- Permissions Used -->
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- To fetch NEWS -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- To check active internet connection -->
 
     <application
         android:allowBackup="true"
