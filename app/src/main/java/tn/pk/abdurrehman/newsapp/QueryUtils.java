@@ -2,6 +2,10 @@ package tn.pk.abdurrehman.newsapp;
 
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,6 +13,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
@@ -99,5 +105,35 @@ public class QueryUtils {
         return json.toString();
     }
 
-    // TODO: Add JSON parsing method which will return the list of NEWS
+    /**
+     * This method extracts the fields required to instantiate the News Object
+     * from the JSON string passed to this method
+     *
+     * @param jsonStr is the JSON string
+     * @return List of News Objects
+     */
+    public static List<News> getNewsListFromJSON(String jsonStr) {
+        List<News> newsList = new ArrayList<>();
+
+        try {
+            JSONObject root = new JSONObject(jsonStr);
+            JSONArray resultsArray = root.getJSONArray("results");
+
+            for (int i = 0; i < resultsArray.length(); i++) {
+                JSONObject currentNews = resultsArray.getJSONObject(i);
+
+                String title = currentNews.getString("webTitle");
+                String section = currentNews.getString("sectionName");
+                String date = currentNews.getString("webPublicationDate");
+                String url = currentNews.getString("webUrl");
+
+                newsList.add(new News(title, url, section, date));
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "getNewsListFromJSON: Error processing JSON from string", e);
+            e.printStackTrace();
+        }
+
+        return newsList;
+    }
 }
