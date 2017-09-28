@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
     private NewsAdapter mAdapter;
     private TextView mEmptyView;
     private ProgressBar mProgressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
             }
         });
 
-
         // If has active internet connection
         if (QueryUtils.hasInternetConnection(getApplicationContext())) {
             // Show progress bar and fetch results
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
         }
     }
 
+    // Override the Loader methods
     @Override
     public android.content.Loader<List<News>> onCreateLoader(int id, Bundle args) {
         return new NewsLoader(this, NEWS_REQUEST_URL);
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
 
     @Override
     public void onLoaderReset(android.content.Loader<List<News>> loader) {
+        // Reset the adapter to clear news
         mAdapter.clear();
     }
 }

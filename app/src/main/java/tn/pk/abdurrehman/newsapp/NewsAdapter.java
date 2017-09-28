@@ -19,6 +19,8 @@ import static android.content.ContentValues.TAG;
 
 /**
  * Created by Abdur on 28-Sep-17.
+ * This class provides custom ArrayAdapter to display ListView items
+ * In custom personalized way.
  */
 
 public class NewsAdapter extends ArrayAdapter<News> {
@@ -30,6 +32,13 @@ public class NewsAdapter extends ArrayAdapter<News> {
         mContext = context;
     }
 
+    /**
+     * Takes in the Date String in the format of yyyy-MM-ddTHH:mm:ssZ
+     * And convert it into DATE_FORMAT
+     *
+     * @param dateString is the string containing date
+     * @return formatted date String to the DATE_FORMAT string
+     */
     private static String convertDate(String dateString) {
         String date = null;
 

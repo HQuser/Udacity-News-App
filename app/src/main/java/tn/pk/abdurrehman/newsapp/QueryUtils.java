@@ -31,11 +31,9 @@ import static android.content.ContentValues.TAG;
  */
 
 public class QueryUtils {
-
     /**
      * Purpose of this method is to create a return a URL object
      * from the URL string passed
-     *
      * @param rawUrl is the url string provided
      * @return the URL object from url string
      */
@@ -54,7 +52,6 @@ public class QueryUtils {
 
     /**
      * This method creates a HttpURLConnection from URL Object
-     *
      * @param url is the URL object to create connection from
      * @return the InputStream from the HttpURLConnection
      */
@@ -84,7 +81,6 @@ public class QueryUtils {
 
     /**
      * This method extracts the JSON String from the InputStream
-     *
      * @param inputStream is the stream containing the JSON
      * @return String of JSON
      */
@@ -113,7 +109,6 @@ public class QueryUtils {
     /**
      * This method extracts the fields required to instantiate the News Object
      * from the JSON string passed to this method
-     *
      * @param jsonStr is the JSON string
      * @return List of News Objects
      */
@@ -145,7 +140,6 @@ public class QueryUtils {
 
     /**
      * This method checks whether device has an active internet connection or not
-     *
      * @param context is the context to check connection
      * @return true if device has internet connection and vice versa
      */
@@ -163,7 +157,6 @@ public class QueryUtils {
 
     /**
      * This method opens the link provided to user preferred web browser via intent
-     *
      * @param url     to open in the form of string
      * @param context to open up the intent
      */

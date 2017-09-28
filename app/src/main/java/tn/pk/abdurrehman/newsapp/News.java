@@ -2,6 +2,8 @@ package tn.pk.abdurrehman.newsapp;
 
 /**
  * Created by Abdur on 28-Sep-17.
+ * Contains information about the News
+ * To be fetched from the JSON.
  */
 
 public class News {

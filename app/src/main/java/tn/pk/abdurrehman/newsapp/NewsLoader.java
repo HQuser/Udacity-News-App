@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Created by Abdur on 28-Sep-17.
+ * This Class loads the news from the url string provided.
  */
 
 public class NewsLoader extends AsyncTaskLoader<List<News>> {
