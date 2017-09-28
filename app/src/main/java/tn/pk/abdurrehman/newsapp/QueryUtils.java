@@ -57,7 +57,12 @@ public class QueryUtils {
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
-            inputStream = urlConnection.getInputStream();
+            if (urlConnection.getResponseCode() == 200) {
+                inputStream = urlConnection.getInputStream();
+            } else {
+                Log.e(TAG, "createHttpURLConnection: response code unsuccessful"
+                        + urlConnection.getResponseCode());
+            }
         } catch (IOException e) {
             Log.e(TAG, "createHttpURLConnection: Error creating InputStream", e);
             e.printStackTrace();
