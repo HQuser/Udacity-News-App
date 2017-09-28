@@ -22,8 +22,8 @@ import static android.content.ContentValues.TAG;
  */
 
 public class NewsAdapter extends ArrayAdapter<News> {
+    private static final String DATE_FORMAT = "MMM dd, yyyy";
     private static Context mContext;
-
 
     public NewsAdapter(@NonNull Context context, @NonNull List<News> objects) {
         super(context, 0, objects);
@@ -35,10 +35,10 @@ public class NewsAdapter extends ArrayAdapter<News> {
 
         try {
             //Parse the string into a date variable
-            Date parsedDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").parse(dateString);
+            Date parsedDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(dateString);
 
             //Now reformat it using desired display pattern:
-            date = new SimpleDateFormat("MMM-dd-yyyy").format(parsedDate);
+            date = new SimpleDateFormat(DATE_FORMAT).format(parsedDate);
 
         } catch (ParseException e) {
             Log.e(TAG, "getDate: Error parsing date", e);
