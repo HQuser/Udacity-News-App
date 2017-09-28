@@ -1,6 +1,5 @@
 package tn.pk.abdurrehman.newsapp;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,14 +8,13 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements android.app.LoaderManager.LoaderCallbacks<List<News>> {
 
-    private static String NEWS_REQUEST_URL = "http://content.guardianapis.com/search?q=android&api-key=test";
+    private static final String NEWS_REQUEST_URL = "http://content.guardianapis.com/search?q=android&api-key=test";
+    private static final int NEWS_LOADER_ID = 1;
     private NewsAdapter mAdapter;
     private TextView mEmptyView;
     private ProgressBar mProgressBar;
@@ -48,36 +46,35 @@ public class MainActivity extends AppCompatActivity {
         if (QueryUtils.hasInternetConnection(getApplicationContext())) {
             // Show progress bar and fetch results
             mProgressBar.setVisibility(View.VISIBLE);
-            new NewsASyncTask().execute(NEWS_REQUEST_URL);
+            getLoaderManager().initLoader(NEWS_LOADER_ID, null, this);
         } else {
             // Display message no internet connection found
             mEmptyView.setText(R.string.no_internet);
         }
     }
 
-    private class NewsASyncTask extends AsyncTask<String, Void, List<News>> {
-        @Override
-        protected List<News> doInBackground(String... params) {
-            URL url = QueryUtils.createURL(params[0]);
-            InputStream inputStream = QueryUtils.createHttpURLConnection(url);
-            String json = QueryUtils.getJSONFromInputStream(inputStream);
-
-            return QueryUtils.getNewsListFromJSON(json);
-        }
-
-        @Override
-        protected void onPostExecute(List<News> newsList) {
-            mAdapter.clear();
-
-            if (newsList == null || newsList.isEmpty()) {
-                mEmptyView.setText(R.string.no_news);
-                return;
-            }
-
-            // Hide Progress Bar and display results
-            mProgressBar.setVisibility(View.GONE);
-            mAdapter.addAll(newsList);
-        }
+    @Override
+    public android.content.Loader<List<News>> onCreateLoader(int id, Bundle args) {
+        return new NewsLoader(this, NEWS_REQUEST_URL);
     }
 
+    @Override
+    public void onLoadFinished(android.content.Loader<List<News>> loader, List<News> newsList /* Data */) {
+        mAdapter.clear();
+
+        // If no results
+        if (newsList == null || newsList.isEmpty()) {
+            mEmptyView.setText(R.string.no_news);
+            return;
+        }
+
+        // Hide Progress Bar and display results
+        mProgressBar.setVisibility(View.GONE);
+        mAdapter.addAll(newsList);
+    }
+
+    @Override
+    public void onLoaderReset(android.content.Loader<List<News>> loader) {
+        mAdapter.clear();
+    }
 }
